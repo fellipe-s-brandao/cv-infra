@@ -18,6 +18,7 @@ services:
       - GPT_API_KEY=${GPT_API_KEY}
     networks:
       - flash-cv-network
+    network_mode: "host"
     restart: unless-stopped
 
   # PDF Extractor
