@@ -3,7 +3,7 @@ version: "3.7"
 services:
   # Backend API
   flash-cv-backend:
-    image: fellipebrandao/flash-cv-backend:latest
+    image: fellipebrandao/node-api-service:latest
     container_name: flash-cv-backend
     ports:
       - "3001:3001"
@@ -22,7 +22,7 @@ services:
 
   # PDF Extractor
   pdf-extractor:
-    image: fellipebrandao/pdf-extractor:latest
+    image: fellipebrandao/doc-parser:latest
     container_name: pdf-extractor
     ports:
       - "3002:3002"
@@ -34,7 +34,7 @@ services:
     
   # Worker CV IA
   worker-cv-ia:
-    image: fellipebrandao/worker-cv-ia:latest
+    image: fellipebrandao/content-processor-a:latest
     container_name: worker-cv-ia
     environment:
       - NODE_ENV=production
@@ -52,7 +52,7 @@ services:
   
   # Worker LinkedIn IA
   worker-linkedin-ia:
-    image: fellipebrandao/worker-linkedin-ia:latest
+    image: fellipebrandao/content-processor-b:latest
     container_name: worker-linkedin-ia
     environment:
       - NODE_ENV=production
