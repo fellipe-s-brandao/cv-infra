@@ -10,7 +10,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3001
-      - REDIS_URI=redis://redis:6379
+      - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
       - PDF_EXTRACTOR_URL=http://pdf-extractor:3002
       - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
@@ -43,7 +43,7 @@ services:
     container_name: worker-cv-ia
     environment:
       - NODE_ENV=production
-      - REDIS_URI=redis://redis:6379
+      - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
       - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
       - GPT_API_KEY=${GPT_API_KEY}
@@ -61,7 +61,7 @@ services:
     container_name: worker-linkedin-ia
     environment:
       - NODE_ENV=production
-      - REDIS_URI=redis://redis:6379
+      - REDIS_URL=redis://redis:6379
       - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
       - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
       - GPT_API_KEY=${GPT_API_KEY}
