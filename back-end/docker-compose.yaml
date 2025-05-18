@@ -1,0 +1,123 @@
+version: "3.7"
+
+services:
+  # Backend API
+  flash-cv-backend:
+    image: fellipebrandao/flash-cv-backend:latest
+    container_name: flash-cv-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - REDIS_URI=redis://redis:6379
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+      - PDF_EXTRACTOR_URL=http://pdf-extractor:3002
+      - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
+      - JWT_SECRET=${JWT_SECRET}
+      - GPT_API_KEY=${GPT_API_KEY}
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+
+  # PDF Extractor
+  pdf-extractor:
+    image: fellipebrandao/pdf-extractor:latest
+    container_name: pdf-extractor
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+    
+  # Worker CV IA
+  worker-cv-ia:
+    image: fellipebrandao/worker-cv-ia:latest
+    container_name: worker-cv-ia
+    environment:
+      - NODE_ENV=production
+      - REDIS_URI=redis://redis:6379
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+      - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
+      - GPT_API_KEY=${GPT_API_KEY}
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - mongodb
+      - redis
+  
+  # Worker LinkedIn IA
+  worker-linkedin-ia:
+    image: fellipebrandao/worker-linkedin-ia:latest
+    container_name: worker-linkedin-ia
+    environment:
+      - NODE_ENV=production
+      - REDIS_URI=redis://redis:6379
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+      - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
+      - GPT_API_KEY=${GPT_API_KEY}
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - mongodb
+      - redis
+
+  # MongoDB
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+
+  # Redis
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+
+  # RabbitMQ
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+
+networks:
+  flash-cv-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+  redis-data:
+  rabbitmq-data:
+  portainer-data:
