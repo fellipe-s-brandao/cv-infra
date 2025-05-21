@@ -4,9 +4,6 @@ services:
   flash-cv-frontend:
     image: fellipebrandao/flash-cv-frontend:0.1.1
     container_name: flash-cv-frontend
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
