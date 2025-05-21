@@ -7,9 +7,10 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+      - NEXT_PUBLIC_BASE_URL_BACK=${NEXT_PUBLIC_BASE_URL_BACK}
       - NODE_ENV=production
-      - NEXT_PUBLIC_BASE_URL=https://aijeitacv.com.br
-      - NEXT_PUBLIC_BASE_URL_BACK=https://api.aijeitacv.com.br
+      - NEXT_TELEMETRY_DISABLED=1
     networks:
       - flash-cv-network
     restart: unless-stopped
