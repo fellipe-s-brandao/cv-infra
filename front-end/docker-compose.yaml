@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   flash-cv-frontend:
-    image: fellipebrandao/flash-cv-frontend:latest
+    image: fellipebrandao/flash-cv-frontend:0.1.1
     container_name: flash-cv-frontend
     build:
       context: .
