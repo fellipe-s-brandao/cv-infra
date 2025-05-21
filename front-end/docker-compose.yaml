@@ -17,4 +17,3 @@ services:
 networks:
   flash-cv-network:
     name: flash-cv-network
-    external: true
