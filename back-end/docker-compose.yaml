@@ -123,6 +123,9 @@ services:
 networks:
   flash-cv-network:
     driver: bridge
+  public:
+    driver: bridge
+    external: true
 
 volumes:
   mongodb-data:
