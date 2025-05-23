@@ -13,8 +13,12 @@ services:
       - NEXT_TELEMETRY_DISABLED=1
     networks:
       - flash-cv-network
+      - public
     restart: unless-stopped
 
 networks:
   flash-cv-network:
     name: flash-cv-network
+  public:
+    driver: bridge
+    external: true
