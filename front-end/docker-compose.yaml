@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   flash-cv-frontend:
-    image: fellipebrandao/front-1:0.1.1
+    image: fellipebrandao/front-1:0.1.1-77f2b76
     container_name: flash-cv-frontend
     ports:
       - "3000:3000"
