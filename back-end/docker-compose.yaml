@@ -16,6 +16,8 @@ services:
       - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
       - JWT_SECRET=${JWT_SECRET}
       - GPT_API_KEY=${GPT_API_KEY}
+      - ASAAS_API_KEY=${ASAAS_API_KEY}
+      - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
     networks:
       - flash-cv-network
       - public
@@ -61,6 +63,25 @@ services:
   worker-linkedin-ia:
     image: fellipebrandao/content-processor-b:0.1.1-2357f28
     container_name: worker-linkedin-ia
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASS}@rabbitmq:5672
+      - PDF_EXTRACTOR_URL=http://pdf-extractor:3002
+      - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
+      - GPT_API_KEY=${GPT_API_KEY}
+    networks:
+      - flash-cv-network
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - mongodb
+      - redis  
+      
+  # Worker LinkedIn IA
+  worker-job-match-ia:
+    image: fellipebrandao/content-processor-c:latest
+    container_name: worker-job-match-ia
     environment:
       - NODE_ENV=production
       - REDIS_URL=redis://redis:6379
