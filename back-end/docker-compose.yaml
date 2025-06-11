@@ -16,7 +16,8 @@ services:
       - MONGO_URI=mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb:27017/flash_cv?authSource=admin
       - JWT_SECRET=${JWT_SECRET}
       - GPT_API_KEY=${GPT_API_KEY}
-      - ASAAS_API_KEY=${ASAAS_API_KEY}
+      - ASAAS_KEY=${ASAAS_KEY}
+      - ASAAS_ENVIRONMENT=${ASAAS_ENVIRONMENT}
       - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
       - ASAAS_WEBHOOK_API_KEY=${ASAAS_WEBHOOK_API_KEY}
     networks:
