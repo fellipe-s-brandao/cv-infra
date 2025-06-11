@@ -18,6 +18,7 @@ services:
       - GPT_API_KEY=${GPT_API_KEY}
       - ASAAS_API_KEY=${ASAAS_API_KEY}
       - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
+      - ASAAS_WEBHOOK_API_KEY=${ASAAS_WEBHOOK_API_KEY}
     networks:
       - flash-cv-network
       - public
