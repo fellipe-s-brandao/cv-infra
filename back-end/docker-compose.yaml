@@ -20,6 +20,14 @@ services:
       - ASAAS_ENVIRONMENT=${ASAAS_ENVIRONMENT}
       - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
       - ASAAS_WEBHOOK_API_KEY=${ASAAS_WEBHOOK_API_KEY}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - EMAIL_FROM=${EMAIL_FROM}
+      - EMAIL_FROM_NAME=${EMAIL_FROM_NAME}
+      - FRONTEND_URL=${FRONTEND_URL}
     networks:
       - flash-cv-network
       - public
@@ -41,7 +49,7 @@ services:
     networks:
       - flash-cv-network
     restart: unless-stopped
-    
+
   # Worker CV IA
   worker-cv-ia:
     image: fellipebrandao/content-processor-a:0.1.1-3477d8c
@@ -60,7 +68,7 @@ services:
       - rabbitmq
       - mongodb
       - redis
-  
+
   # Worker LinkedIn IA
   worker-linkedin-ia:
     image: fellipebrandao/content-processor-b:0.1.1-3477d8c
@@ -78,8 +86,8 @@ services:
     depends_on:
       - rabbitmq
       - mongodb
-      - redis  
-      
+      - redis
+
   # Worker LinkedIn IA
   worker-job-match-ia:
     image: fellipebrandao/content-processor-c:0.1.1-3477d8c
